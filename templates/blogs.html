@@ -94,17 +94,35 @@
           No comments yet
           {% endif %}
           <br>
-          <div class="form-group">
-            <form action="" method="POST">
-              {% csrf_token %}
-              <div class="form-group">
-                <textarea name="comment" class="form-control" placeholder="Write Your Comment"></textarea>
-                  <input type="submit" value="submit" class="btn btn-primary mt-2">
-                
-              </div>
-            </form>
+            <div class="form-group">
+                {% if user.is_authenticated %}
+                    <form action="" method="POST">
+                        {% csrf_token %}
 
-          </div>
+                        <div class="form-group">
+                            <textarea
+                                name="comment"
+                                id="comment"
+                                class="form-control"
+                                placeholder="Write Your Comment"
+                                rows="4"
+                                required
+                            ></textarea>
+
+                            <input
+                                type="submit"
+                                value="Submit"
+                                class="btn btn-primary mt-2"
+                            >
+                        </div>
+                    </form>
+                {% else %}
+                    <p class="text-muted">
+                        Please <span><a href="{% url "login" %}">Login</a></span> to write a comment.
+                    </p>
+                {% endif %}
+            </div>
+
 
         </section>
 
