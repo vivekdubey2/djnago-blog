@@ -1,0 +1,155 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="container">
+  <!-- FEATURED POST -->
+
+  {% for post in featured_post %} {% if forloop.first %}
+
+  <div
+    class="jumbotron p-3 p-md-5 text-white rounded bg-dark mb-4"
+    style="
+          background-image: url('{{ post.featured_image.url }}');
+          background-blend-mode: overlay;
+          background-size: cover;
+          background-position: center;
+        "
+  >
+    <div class="col-md-8 px-0">
+      <h1 class="display-4 font-italic">{{ post.title }}</h1>
+
+      <p class="lead my-3">{{ post.short_description|truncatewords:20 }}</p>
+
+      <p class="lead mb-0">
+        <a
+          href="{% url 'blogs' post.slug %}"
+          class="text-white font-weight-bold"
+        >
+          Continue reading...
+        </a>
+      </p>
+    </div>
+  </div>
+
+  {% endif %} {% endfor %}
+
+  <!-- FEATURED POSTS -->
+
+  <h3 class="text-uppercase text-warning" style="letter-spacing: 2px">
+    Featured Post
+  </h3>
+
+  <div class="row mb-4">
+    {% for post in featured_post %} {% if not forloop.first %}
+
+    <div class="col-md-6 mb-3">
+      <div class="card border-0 h-100">
+        <div class="card-body">
+          <h3>
+            <a
+              href="{% url 'blogs' post.slug %}"
+              class="text-dark text-decoration-none"
+            >
+              {{ post.title }}
+            </a>
+          </h3>
+
+          <small class="mb-1 text-muted">
+            {{ post.created_at|timesince }} ago | {{ post.author }}
+          </small>
+
+          <p class="card-text mt-2">
+            {{ post.short_description|truncatewords:20 }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    {% endif %} {% empty %}
+
+    <div class="col-12">
+      <p>No featured posts found.</p>
+    </div>
+
+    {% endfor %}
+  </div>
+
+  <!-- RECENT ARTICLES -->
+
+  <h3 class="text-uppercase text-warning" style="letter-spacing: 2px">
+    Recent Articles
+  </h3>
+
+  <main role="main" class="container p-0">
+    <div class="row">
+      <!-- ARTICLES -->
+
+      <div class="col-md-8 blog-main">
+        {% for post in posts %}
+
+        <div class="card border-0 mb-3">
+          <div class="card-body">
+            <h3>
+              <a
+                href="{% url 'blogs' post.slug %}"
+                class="text-dark text-decoration-none"
+              >
+                {{ post.title }}
+              </a>
+            </h3>
+
+            <small class="mb-1 text-muted">
+              {{ post.created_at|timesince }} ago | {{ post.author }}
+            </small>
+
+            <p class="card-text mt-2">
+              {{ post.short_description|truncatewords:25 }}
+            </p>
+
+            <a
+              href="{% url 'blogs' post.slug %}"
+              class="text-warning text-decoration-none"
+            >
+              Read more →
+            </a>
+          </div>
+        </div>
+
+        {% empty %}
+
+        <div class="alert alert-info">No recent articles found.</div>
+
+        {% endfor %}
+      </div>
+
+      <!-- SIDEBAR -->
+
+      <aside class="col-md-4 blog-sidebar">
+        <!-- ABOUT -->
+
+        <div class="p-3 mb-4 bg-light rounded">
+        {% for ab in about %}
+            <h4>{{ ab.about_heading }}</h4>
+            <p>{{ ab.about_description }}</p>
+        {% endfor %}
+        </div>
+
+        <!-- FOLLOW US -->
+        {% if social_links %}
+        <div class="p-3 mb-4">
+          <h4 class="font-italic">Follow Us</h4>
+
+          <ul class="list-unstyled">
+            {% for social in social_links %}
+            <li class="mb-2">
+              <a href="{{social.link}}" target="_blank"> {{social.platform_model}} </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+      </aside>
+    </div>
+  </main>
+</div>
+
+{% endblock %}

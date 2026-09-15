@@ -1,0 +1,8 @@
+asgiref==3.12.1
+crispy-bootstrap4==2026.2
+django==6.1
+django-crispy-forms==2.7
+pillow==12.3.0
+python-dotenv==1.2.3
+sqlparse==0.6.0
+-e file:///home/vivek/projects/ThinkSpace
